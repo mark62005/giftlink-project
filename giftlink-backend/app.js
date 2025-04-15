@@ -1,11 +1,17 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const pinoLogger = require('./logger');
+import dotenv from "dotenv";
+import express from "express";
+import cors from "cors";
+import logger from "./logger.js";
+import { pinoHttp } from "pino-http";
+import connectToDatabase from "./models/db.js";
+import { loadData } from "./util/import-mongo/index.js";
 
-const connectToDatabase = require('./models/db');
-const { loadData } = require("./util/import-mongo/index");
+// Route files
+import giftRoutes from "./routes/giftRoutes.js";
+import searchRoutes from "./routes/searchRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
+dotenv.config();
 
 const app = express();
 app.use("*", cors());
@@ -13,19 +19,12 @@ const port = 3060;
 
 // Connect to MongoDB; we just do this one time
 connectToDatabase().then(() => {
-    pinoLogger.info('Connected to DB');
+    logger.info('Connected to DB');
 })
     .catch((e) => console.error('Failed to connect to DB', e));
 
 
 app.use(express.json());
-
-// Route files
-const giftRoutes = require('./routes/giftRoutes');
-const authRoutes = require('./routes/authRoutes');
-const searchRoutes = require('./routes/searchRoutes');
-const pinoHttp = require('pino-http');
-const logger = require('./logger');
 
 app.use(pinoHttp({ logger }));
 

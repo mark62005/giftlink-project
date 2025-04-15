@@ -1,13 +1,13 @@
-const express = require('express');
-const bcryptjs = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const connectToDatabase = require('../models/db');
-const router = express.Router();
-const dotenv = require('dotenv');
-const pino = require('pino');  // Import Pino logger
-
+import express from "express";
+import bcryptjs from "bcryptjs";
+import jwt from "jsonwebtoken";
+import connectToDatabase from "../models/db.js";
+import dotenv from "dotenv";
+import pino from "pino";
 //Task 1: Use the `body`,`validationResult` from `express-validator` for input validation
-const { body, validationResult } = require('express-validator');
+import { validationResult } from "express-validator";
+
+const router = express.Router();
 
 const logger = pino();  // Create a Pino logger instance
 
@@ -54,7 +54,7 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-    console.log("\n\n Inside login")
+    console.log("\n\n Inside login");
 
     try {
         // const collection = await connectToDatabase();
@@ -148,4 +148,5 @@ router.put('/update', async (req, res) => {
         return res.status(500).send("Internal Server Error");
     }
 });
-module.exports = router;
+
+export default router;

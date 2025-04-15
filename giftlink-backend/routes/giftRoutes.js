@@ -1,8 +1,8 @@
-const express = require('express');
-const router = express.Router();
-const connectToDatabase = require('../models/db');
-const logger = require('../logger');
+import express from "express";
+import logger from "../logger.js";
+import connectToDatabase from "../models/db.js";
 
+const router = express.Router();
 // Get all gifts
 router.get('/', async (req, res, next) => {
     logger.info('/ called');
@@ -50,4 +50,4 @@ router.post('/', async (req, res, next) => {
     }
 });
 
-module.exports = router;
+export default router;
